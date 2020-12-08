@@ -1,6 +1,6 @@
 {
   "name": "ember-behaviors",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A framework for adding user interaction configurability to your components.",
   "keywords": [
     "ember-addon"

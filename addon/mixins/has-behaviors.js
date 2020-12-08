@@ -3,8 +3,8 @@ import { computed, observer } from '@ember/object';
 import Mixin from '@ember/object/mixin';
 import { on } from '@ember/object/evented';
 import { run } from '@ember/runloop';
-import withBackingField from 'ember-light-table/utils/with-backing-field';
-import listenerName from 'ember-light-table/utils/listener-name';
+import withBackingField from 'ember-behaviors/utils/with-backing-field';
+import listenerName from 'ember-behaviors/utils/listener-name';
 
 /*
  * from ember-keyboard
