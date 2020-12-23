@@ -1,7 +1,7 @@
-import HasBehaviorMixin, { behaviorGroupFlag, behaviorFlag, behaviorInstanceOf } from 'ember-behaviors/mixins/has-behaviors'
+import HasBehaviorsMixin, { behaviorGroupFlag, behaviorFlag, behaviorInstanceOf } from 'ember-behaviors/mixins/has-behaviors'
 
 export {
-  HasBehaviorMixin,
+  HasBehaviorsMixin,
   behaviorGroupFlag,
   behaviorFlag,
   behaviorInstanceOf
