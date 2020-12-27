@@ -1,8 +1,9 @@
 <Window
   @rectangle={{model.rectangle}}
-  @behaviors={{array (window-resize)}}
+  @behaviors={{array (window-resize) (window-move)}}
+  as |w|
 >
-  <div class='note-title'>
+  <div class='note-title' onMousedown={{action 'dragStart' w}}>
     {{model.note.title}}
   </div>
   <div class='note-content'>

@@ -23,8 +23,11 @@ const WindowComponent = Component.extend(InitPropertyMixin, HasBehaviorsMixin, {
     return htmlSafe(this.rectangle.style);
   },
 
-  actions: {
+  startDrag(e) {
+    this.triggerBehaviorEvent('dragStart', e);
+  },
 
+  actions: {
     sideDragStart(side, e) {
       this.triggerBehaviorEvent('sideDragStart', side, e);
     },
@@ -32,7 +35,6 @@ const WindowComponent = Component.extend(InitPropertyMixin, HasBehaviorsMixin, {
     cornerDragStart(corner, e) {
       this.triggerBehaviorEvent('cornerDragStart', corner, e);
     }
-
   }
 
 });

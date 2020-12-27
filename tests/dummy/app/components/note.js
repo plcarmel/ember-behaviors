@@ -14,6 +14,12 @@ const NoteComponent = Component.extend(InitPropertyMixin, {
   init() {
     this._super(...arguments);
     this.initProperty('model', NoteView.create({}));
+  },
+
+  actions: {
+    dragStart(w, e) {
+      w.startDrag(e);
+    }
   }
 });
 

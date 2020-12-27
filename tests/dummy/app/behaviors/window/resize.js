@@ -54,16 +54,8 @@ class DragInfo {
     this.wStartPos = r.get(getWindowPositionName(this.side));
   }
 
-  isCompatible(sideComponent) {
-    return sideComponent.note == this.note && sideComponent.side == this.side;
-  }
-
-  computeOffset(e) {
-    return extractMousePosition(this.side, e) - this.mStartPos;
-  }
-
   updateWindowSize(windowComponent, e) {
-    const offset = this.computeOffset(e);
+    const offset = extractMousePosition(this.side, e) - this.mStartPos;
     const dimName = getWindowDimensionName(this.side);
     const constrained = x => Math.max(minSize, x);
     const r = windowComponent.rectangle;
