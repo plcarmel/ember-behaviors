@@ -1,0 +1,11 @@
+{{yield}}
+
+<WindowSide @side='N' @dragStart={{action 'sideDragStart' 'N'}} />
+<WindowSide @side='E' @dragStart={{action 'sideDragStart' 'E'}} />
+<WindowSide @side='W' @dragStart={{action 'sideDragStart' 'W'}} />
+<WindowSide @side='S' @dragStart={{action 'sideDragStart' 'S'}} />
+
+<WindowCorner @corner='NW' @dragStart={{action 'cornerDragStart' 'NW'}} />
+<WindowCorner @corner='SW' @dragStart={{action 'cornerDragStart' 'SW'}} />
+<WindowCorner @corner='SE' @dragStart={{action 'cornerDragStart' 'SE'}} />
+<WindowCorner @corner='NE' @dragStart={{action 'cornerDragStart' 'NE'}} />

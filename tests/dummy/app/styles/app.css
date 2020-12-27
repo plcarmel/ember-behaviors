@@ -1,0 +1,46 @@
+.board {
+  position: relative;
+  border: 1px dashed black;
+  width: 800px;
+  height: 800px;
+  user-select: none;
+}
+
+.window {
+  position: absolute;
+  overflow: visible;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.note {
+  font-size: small;
+  font-family: Arial, Sans-serif;
+  opacity: 0.75;
+}
+
+.note-title {
+  color: white;
+  background-color: blue;
+  white-space: nowrap;
+  padding: 1.5ex;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.note-content {
+  background-color: lightgray; 
+  position: relative;
+  padding: 1.5ex;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.window-handle {
+  position: absolute;
+  opacity: 0.8;
+  background-color: purple;
+}
+
