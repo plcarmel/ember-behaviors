@@ -1,23 +1,42 @@
+body {
+  margin: 30px;
+  font-family: Arial, Sans-serif;
+}
+
 .board {
   position: relative;
-  border: 1px dashed black;
-  width: 800px;
-  height: 800px;
   user-select: none;
+  padding: 30px;
+}
+
+.board-add-note {
+  width: 1.75em;
+  height: 1.75em;
+  border-radius: 1.75em;
+  border: none;
+  font-size: 30px;
+  background-color: purple;
+  color: white;
+  position: relative;
+  left: -30px;
+  top: -30px;
 }
 
 .window {
   position: absolute;
   overflow: visible;
-  border: 1px solid black;
-  border-radius: 5px;
+  border: 3px solid purple;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
+  pointer-events: none;
+}
+
+.window > * {
+  pointer-events: auto;
 }
 
 .note {
-  font-size: small;
-  font-family: Arial, Sans-serif;
   opacity: 0.75;
 }
 
@@ -25,9 +44,11 @@
   color: white;
   background-color: blue;
   white-space: nowrap;
+  font-weight: bold;
   padding: 1.5ex;
   text-overflow: ellipsis;
   overflow: hidden;
+  z-index: -1;
 }
 
 .note-content {
@@ -36,11 +57,10 @@
   padding: 1.5ex;
   overflow: hidden;
   flex-grow: 1;
+  z-index: -1;
 }
 
 .window-handle {
   position: absolute;
-  opacity: 0.8;
-  background-color: purple;
 }
 

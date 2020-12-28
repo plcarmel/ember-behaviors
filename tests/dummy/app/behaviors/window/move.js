@@ -1,4 +1,5 @@
 import EmberObject from '@ember/object';
+import { extractPosInfo } from '../../utils/touch';
 
 class DragInfo {
 
@@ -8,16 +9,18 @@ class DragInfo {
   wStartPosY = null;
 
   constructor(windowComponent, e) {
-    this.mStartPosX = e.clientX;
-    this.mStartPosY = e.clientY;
+    const posInfo = extractPosInfo(e);
+    this.mStartPosX = posInfo.clientX;
+    this.mStartPosY = posInfo.clientY;
     const r = windowComponent.rectangle;
     this.wStartPosX = r.x;
     this.wStartPosY = r.y;
   }
 
   updateWindowPos(windowComponent, e) {
-    const offsetX = e.clientX - this.mStartPosX;
-    const offsetY = e.clientY - this.mStartPosY;
+    const posInfo = extractPosInfo(e);
+    const offsetX = posInfo.clientX - this.mStartPosX;
+    const offsetY = posInfo.clientY - this.mStartPosY;
     const r = windowComponent.rectangle;
     r.set('x', this.wStartPosX + offsetX);
     r.set('y', this.wStartPosY + offsetY);
@@ -40,19 +43,25 @@ export default class ResizeBehavior extends EmberObject {
     this.dragInfo = new DragInfo(windowComponent, e);
     const that = this;
     const thing = window;
-    function onMouseMove(e) {
-      that.onMouseMove(windowComponent, e);
+    function onMove(e) {
+      that.onMove(windowComponent, e);
     }
-    function onMouseUp() {
-      thing.removeEventListener('mousemove', onMouseMove, true);
-      thing.removeEventListener('mouseup', onMouseUp, true);
+    function onMoveEnd() {
+      thing.removeEventListener('mousemove', onMove, true);
+      thing.removeEventListener('touchmove', onMove, true);
+      thing.removeEventListener('mouseup', onMoveEnd, true);
+      thing.removeEventListener('touchend', onMoveEnd, true);
+      thing.removeEventListener('touchcancel', onMoveEnd, true);
       this.dragInfo = null;
     }
-    thing.addEventListener('mousemove', onMouseMove, true);
-    thing.addEventListener('mouseup', onMouseUp, true);
+    thing.addEventListener('mousemove', onMove, true);
+    thing.addEventListener('touchmove', onMove, true);
+    thing.addEventListener('mouseup', onMoveEnd, true);
+    thing.addEventListener('touchend', onMoveEnd, true);
+    thing.addEventListener('touchcancel', onMoveEnd, true);
   }
 
-  onMouseMove(windowComponent, e) {
+  onMove(windowComponent, e) {
     this.dragInfo.updateWindowPos(windowComponent, e);
   }
 

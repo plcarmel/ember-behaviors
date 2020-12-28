@@ -10,7 +10,7 @@ export default Component.extend(InitPropertyMixin, {
   attributeBindings: ['style'],
 
   side: null, // N, E, S, W
-  thicknessPx: 4,
+  thicknessPx: 16,
   dragStart: null,
 
   init() {
@@ -64,7 +64,8 @@ export default Component.extend(InitPropertyMixin, {
       ` ${this.cssDimension}: ${this.thicknessPx}px;` +
       ` ${this.cssSide}: ${this.offsetPx}px;` +
       ` ${this.cssOtherSide}: 0px;` +
-      ` cursor: ${this.cssCursor}`);
+      ` cursor: ${this.cssCursor};` +
+      ` touch-action: none;`);
   },
 
   mouseDown(e) {

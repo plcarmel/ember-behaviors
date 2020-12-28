@@ -3,7 +3,12 @@
   @behaviors={{array (window-resize) (window-move)}}
   as |w|
 >
-  <div class='note-title' onMousedown={{action 'dragStart' w}}>
+  <div
+    style = 'touch-action: none;'
+    class = 'note-title'
+    onTouchstart = {{action 'dragStart' w}}
+    onMousedown = {{action 'dragStart' w}}
+  >
     {{model.note.title}}
   </div>
   <div class='note-content'>

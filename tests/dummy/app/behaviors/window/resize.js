@@ -1,16 +1,18 @@
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
+import { extractPosInfo } from '../../utils/touch';
 
 const minSize = 50;
 
-function extractMousePosition(side, e) {
+function extractPosition(side, e) {
+  const posInfo = extractPosInfo(e);
   switch(side) {
     case 'E':
     case 'W':
-      return e.clientX;
+      return posInfo.clientX;
     case 'N':
     case 'S':
-      return e.clientY;
+      return posInfo.clientY;
   }
   throw `Unexpected side "${side}"`;
 }
@@ -48,14 +50,14 @@ class DragInfo {
 
   constructor(windowComponent, side, e) {
     this.side = side;
-    this.mStartPos = extractMousePosition(this.side, e);
+    this.mStartPos = extractPosition(this.side, e);
     const r = windowComponent.rectangle;
     this.wStartDim = r.get(getWindowDimensionName(this.side));
     this.wStartPos = r.get(getWindowPositionName(this.side));
   }
 
   updateWindowSize(windowComponent, e) {
-    const offset = extractMousePosition(this.side, e) - this.mStartPos;
+    const offset = extractPosition(this.side, e) - this.mStartPos;
     const dimName = getWindowDimensionName(this.side);
     const constrained = x => Math.max(minSize, x);
     const r = windowComponent.rectangle;
@@ -93,15 +95,21 @@ export default class ResizeBehavior extends EmberObject {
     this.dragInfos = A([new DragInfo(windowComponent, side, e)]);
     const that = this;
     const thing = window;
-    function onMouseMove(e) {
-      that.onMouseMove(windowComponent, e);
+    function onMove(e) {
+      that.onMove(windowComponent, e);
     }
-    function onMouseUp() {
-      thing.removeEventListener('mousemove', onMouseMove, true);
-      thing.removeEventListener('mouseup', onMouseUp, true);
+    function onMoveEnd() {
+      thing.removeEventListener('mousemove', onMove, true);
+      thing.removeEventListener('touchmove', onMove, true);
+      thing.removeEventListener('mouseup', onMoveEnd, true);
+      thing.removeEventListener('touchend', onMoveEnd, true);
+      thing.removeEventListener('touchcancel', onMoveEnd, true);
     }
-    thing.addEventListener('mousemove', onMouseMove, true);
-    thing.addEventListener('mouseup', onMouseUp, true);
+    thing.addEventListener('mousemove', onMove, true);
+    thing.addEventListener('touchmove', onMove, true);
+    thing.addEventListener('mouseup', onMoveEnd, true);
+    thing.addEventListener('touchend', onMoveEnd, true);
+    thing.addEventListener('touchcancel', onMoveEnd, true);
   }
 
   onCornerDragStart(windowComponent, corner, e) {
@@ -112,19 +120,25 @@ export default class ResizeBehavior extends EmberObject {
       ]);
     const that = this;
     const thing = window;
-    function onMouseMove(e) {
-      that.onMouseMove(windowComponent, e);
+    function onMove(e) {
+      that.onMove(windowComponent, e);
     }
-    function onMouseUp() {
-      thing.removeEventListener('mousemove', onMouseMove, true);
-      thing.removeEventListener('mouseup', onMouseUp, true);
+    function onMoveEnd() {
+      thing.removeEventListener('mousemove', onMove, true);
+      thing.removeEventListener('touchmove', onMove, true);
+      thing.removeEventListener('mouseup', onMoveEnd, true);
+      thing.removeEventListener('touchend', onMoveEnd, true);
+      thing.removeEventListener('touchcancel', onMoveEnd, true);
       this.dragInfos = null;
     }
-    thing.addEventListener('mousemove', onMouseMove, true);
-    thing.addEventListener('mouseup', onMouseUp, true);
+    thing.addEventListener('mousemove', onMove, true);
+    thing.addEventListener('touchmove', onMove, true);
+    thing.addEventListener('mouseup', onMoveEnd, true);
+    thing.addEventListener('touchend', onMoveEnd, true);
+    thing.addEventListener('touchcancel', onMoveEnd, true);
   }
 
-  onMouseMove(windowComponent, e) {
+  onMove(windowComponent, e) {
     this.dragInfos.forEach(di => di.updateWindowSize(windowComponent, e));
   }
 

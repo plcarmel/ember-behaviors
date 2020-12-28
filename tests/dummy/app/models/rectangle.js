@@ -9,11 +9,21 @@ const Rectangle = EmberObject.extend(InitPropertyMixin, {
   width: null,
   height: null,
 
+  @computed('x', 'width')
+  get right() {
+    return this.x + this.width;
+  },
+
+  @computed('y', 'height')
+  get bottom() {
+    return this.y + this.height;
+  },
+
   init() {
     this.initProperty('x', 50);
     this.initProperty('y', 50);
-    this.initProperty('width', 100);
-    this.initProperty('height', 100);
+    this.initProperty('width', 200);
+    this.initProperty('height', 150);
   },
 
   @computed('x', 'y', 'width','height')
