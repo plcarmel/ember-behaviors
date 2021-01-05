@@ -2,6 +2,6 @@
 
 {{#each model.notes as |m|}}
 
-  {{note model=m}}
+  <Note @model={{m}} @windowBehaviors={{windowBehaviors}} />
 
 {{/each}}

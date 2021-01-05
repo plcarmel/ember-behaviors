@@ -1,3 +1,4 @@
+import { A } from '@ember/array';
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import NoteView from '../models/note-view';
@@ -10,10 +11,12 @@ const NoteComponent = Component.extend(InitPropertyMixin, {
   classNames: ['note'],
 
   model: null,
+  windowBehaviors: null,
 
   init() {
     this._super(...arguments);
     this.initProperty('model', NoteView.create({}));
+    this.initProperty('windowBehaviors', A([]));
   },
 
   actions: {
