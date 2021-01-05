@@ -5,7 +5,7 @@ import NoteView from '../models/note-view';
 import InitPropertyMixin from '../mixins/init-property';
 import layout from '../templates/note';
 
-const NoteComponent = Component.extend(InitPropertyMixin, {
+export default Component.extend(InitPropertyMixin, {
 
   layout,
   classNames: ['note'],
@@ -26,4 +26,3 @@ const NoteComponent = Component.extend(InitPropertyMixin, {
   }
 });
 
-export default NoteComponent;

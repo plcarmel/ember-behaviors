@@ -6,7 +6,7 @@ import InitPropertyMixin from '../mixins/init-property';
 import { HasBehaviorsMixin } from 'ember-behaviors'
 import { htmlSafe } from '@ember/template';
 
-const WindowComponent = Component.extend(InitPropertyMixin, HasBehaviorsMixin, {
+export default Component.extend(InitPropertyMixin, HasBehaviorsMixin, {
 
   layout,
   classNames: ['window'],
@@ -48,4 +48,3 @@ const WindowComponent = Component.extend(InitPropertyMixin, HasBehaviorsMixin, {
 
 });
 
-export default WindowComponent;
