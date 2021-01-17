@@ -79,9 +79,10 @@ class DragInfo {
 
 export default class ResizeBehavior extends EmberObject {
 
+  name = 'standard-resize-behavior';
   exclusionGroup = 'resize';
-  events = null;
 
+  events = null;
   dragInfos = null;
 
   constructor() {

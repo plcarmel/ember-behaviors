@@ -27,9 +27,11 @@ class DragInfo {
   }
 }
 
-export default class ResizeBehavior extends EmberObject {
+export default class MoveBehavior extends EmberObject {
 
+  name = 'standard-move-behavior';
   exclusionGroup = 'move';
+
   events = null;
   dragInfo = null;
 
