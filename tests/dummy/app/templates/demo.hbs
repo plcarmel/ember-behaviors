@@ -1,20 +1,26 @@
-<h3>Included behaviors</h3>
+<div class='demo-controls'>
 
-<Input
-  @type='checkbox'
-  @checked={{includeWindowResize}}
-  @onClick={{mut includeWindowResize (if includeWindowResize false true)}}
-/> window-resize
+  <h3>Included behaviors</h3>
 
-<Input
-  @type='checkbox'
-  @checked={{includeWindowMove}}
-  @onClick={{mut includeWindowMove (if includeWindowMove false true)}}
-/> window-move
+  <Input
+    @type='checkbox'
+    @checked={{includeWindowResize}}
+    @onClick={{mut includeWindowResize (if includeWindowResize false true)}}
+  /> window-resize
 
-<p class='snippet'>
-  <pre>{{code}}</pre>
-</p>
+  <Input
+    @type='checkbox'
+    @checked={{includeWindowMove}}
+    @onClick={{mut includeWindowMove (if includeWindowMove false true)}}
+  /> window-move
+
+  <h3>Resulting code</h3>
+
+  <p class='snippet'>
+    <pre>{{code}}</pre>
+  </p>
+
+</div>
 
 {{#if (eq flags 0)}}
   <RenderTemplate @boardView={{boardView}} @templateString={{code}}/>

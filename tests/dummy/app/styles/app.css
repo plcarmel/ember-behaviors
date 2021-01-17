@@ -1,10 +1,11 @@
 body {
   margin: 0;
   font-family: Arial, Sans-serif;
+  background: beige;
 }
 
 h1, h2 {
-  background-color: purple;
+  background-color: #e34c32;
   display: block;
   color: white;
   margin: 0;
@@ -15,13 +16,35 @@ h1 {
   margin-bottom: 0;
 }
 
+h1 img {
+  height: 1.2em;
+}
+
+h1 span {
+  font-size: 50%;
+  text-transform: uppercase;
+  position: relative;
+  top: -0.25ex;
+}
+
+h1 span:before {
+  content: '•';
+  margin: auto 15px auto 10px;
+}
+
 h2 {
-  padding-bottom: 15px;
+  padding-bottom: 30px;
   padding-left: 60px;
 }
 
 .demo {
   margin: 20px;
+}
+
+.demo-controls {
+  background-color: white;
+  margin: -20px -20px 0 -20px;
+  padding: 20px;
 }
 
 .snippet {
@@ -34,7 +57,9 @@ h2 {
 .board {
   position: relative;
   user-select: none;
-  padding: 30px;
+  padding-: 30px;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .board-add-note {
@@ -43,16 +68,16 @@ h2 {
   border-radius: 1.75em;
   border: none;
   font-size: 30px;
-  background-color: purple;
+  background-color: #e34c32;
   color: white;
   position: relative;
-  left: -30px;
-  top: -30px;
+  left: 0;
+  top: 15px;
 }
 
 .window {
   position: absolute;
-  overflow: visible;
+  overflow: hidden;
   border: 3px solid purple;
   border-radius: 10px;
   display: flex;
@@ -74,9 +99,31 @@ h2 {
   white-space: nowrap;
   font-weight: bold;
   padding: 1.5ex;
+  padding-right: 3ex;
+  z-index: -1;
+  position: relative;
+}
+
+.note-title div {
   text-overflow: ellipsis;
   overflow: hidden;
-  z-index: -1;
+  margin-right: 30px;
+}
+
+
+.note-title input, .note-content textarea {
+  background-color: #80808020;
+  color: inherit;
+  border: none;
+  font: inherit;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.note-title input {
+  width: 100%;
 }
 
 .note-content {
@@ -86,6 +133,34 @@ h2 {
   overflow: hidden;
   flex-grow: 1;
   z-index: -1;
+}
+
+.note-content textarea {
+  resize: none;
+}
+
+.note-content pre {
+  font: inherit;
+  margin: 0;
+}
+
+.note-edit-buttons {
+  position: absolute;
+  background-color: lightgray; 
+  text-align: right;
+  z-index: -1;
+  right: 0;
+  top: 0;
+  background-color: #00000000;
+  padding-right: 10px;
+}
+
+.note-edit-buttons button {
+  background-color: #00000000;
+  font-size: 20px;
+  color: white;
+  border: none;
+  padding: 10px 0;
 }
 
 .window-handle {

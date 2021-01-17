@@ -9,9 +9,28 @@
     onTouchstart = {{action 'dragStart' w}}
     onMousedown = {{action 'dragStart' w}}
   >
-    {{model.note.title}}
+    <div onMouseDown={{action 'stopPropagation'}}>
+      {{#if edit}}
+        <Input @type='text' @value={{mut newTitle}} />
+      {{else}}
+        {{model.note.title}}
+      {{/if}}
+    </div>
   </div>
   <div class='note-content'>
-    {{model.note.content}}
+    {{#if edit}}
+      <Textarea @value={{mut newContent}}/>
+    {{else}}
+      <pre>{{model.note.content}}</pre>
+    {{/if}}
   </div>
+  <div class='note-edit-buttons'>
+    {{#if edit}}
+      <button {{action 'onSave'}}>✓</button> 
+      <button {{action 'onCancel'}}>✕</button> 
+    {{else}}
+      <button onclick={{action 'onEdit'}}>✎</button> 
+    {{/if}}
+  </div>
+
 </Window>

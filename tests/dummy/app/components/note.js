@@ -13,6 +13,10 @@ export default Component.extend(InitPropertyMixin, {
   model: null,
   windowBehaviors: null,
 
+  edit: false,
+  newTitle: null,
+  newContent: null,
+
   init() {
     this._super(...arguments);
     this.initProperty('model', NoteView.create({}));
@@ -20,9 +24,35 @@ export default Component.extend(InitPropertyMixin, {
   },
 
   actions: {
+
     dragStart(w, e) {
       w.startDrag(e);
+    },
+
+    onEdit() {
+      const note = this.model.note;
+      this.set('newTitle', note.title);
+      this.set('newContent', note.content);
+      this.set('edit', true);
+    },
+
+    onSave() {
+      const note = this.model.note;
+      note.set('title', this.newTitle);
+      note.set('content', this.newContent);
+      this.set('edit', false);
+    },
+
+    onCancel() {
+      this.set('edit', false);
+    },
+
+    stopPropagation(e) {
+      if (this.edit) {
+        e.stopPropagation();
+      }
     }
+
   }
 });
 

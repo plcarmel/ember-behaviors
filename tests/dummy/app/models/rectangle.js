@@ -20,8 +20,8 @@ const Rectangle = EmberObject.extend(InitPropertyMixin, {
   },
 
   init() {
-    this.initProperty('x', 50);
-    this.initProperty('y', 50);
+    this.initProperty('x', 100);
+    this.initProperty('y', 100);
     this.initProperty('width', 200);
     this.initProperty('height', 150);
   },
