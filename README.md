@@ -61,7 +61,7 @@ even though it might be nice to offer the reordeing capabilities as a
 separate addon to the component.
 
 ```
-<ConfigurableList @items={{groceries}} @behaviors=(array (clDragDropReordering)) />
+<ConfigurableList @items={{groceries}} @behaviors={{array (clDragDropReordering)}} />
 ```
 
 When you have this in place, it becomes possible to provide developers with a set of
@@ -70,11 +70,11 @@ different behaviors and capabilities from which they can choose.
 ```
 <ConfigurableList
     @items = {{groceries}}
-    @behaviors = (array
+    @behaviors = {{array
         (clDragDropReordering))
 	(clDefaultContextMenu allowDelete=true)
 	(clDefaultKeyboardActions allowDelete=true)
-    )
+    }}
 />
 ```
 
