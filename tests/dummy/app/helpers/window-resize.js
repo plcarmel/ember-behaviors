@@ -3,8 +3,8 @@ import WindowResizeBehavior from '../behaviors/window/resize';
 
 export default Helper.extend({
 
-  compute() {
-    return WindowResizeBehavior.create({});
+  compute(pA, nA) {
+    return WindowResizeBehavior.create(nA);
   }
 
 });

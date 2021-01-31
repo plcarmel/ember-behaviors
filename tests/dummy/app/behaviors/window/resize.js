@@ -2,8 +2,6 @@ import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import { extractPosInfo } from '../../utils/touch';
 
-const minSize = 50;
-
 function extractPosition(side, e) {
   const posInfo = extractPosInfo(e);
   switch(side) {
@@ -47,29 +45,45 @@ class DragInfo {
   mStartPos = null;
   wStartDim = null;
   wStartPos = null;
+  minWidth = null;
+  minHeight = null;
 
-  constructor(windowComponent, side, e) {
+  constructor(windowComponent, side, minWidth, minHeight, e) {
     this.side = side;
     this.mStartPos = extractPosition(this.side, e);
     const r = windowComponent.rectangle;
     this.wStartDim = r.get(getWindowDimensionName(this.side));
     this.wStartPos = r.get(getWindowPositionName(this.side));
+    this.minWidth = minWidth;
+    this.minHeight = minHeight;
+  }
+
+  getConstraintValue(side) {
+    switch(side) {
+      case 'E':
+      case 'W':
+        return this.minWidth;
+      case 'N':
+      case 'S':
+        return this.minHeight;
+    }
+    throw `Unexpected side "${side}"`;
   }
 
   updateWindowSize(windowComponent, e) {
     const offset = extractPosition(this.side, e) - this.mStartPos;
     const dimName = getWindowDimensionName(this.side);
-    const constrained = x => Math.max(minSize, x);
+    const minValue = this.getConstraintValue(this.side);
     const r = windowComponent.rectangle;
     switch(this.side) {
       case 'E':
       case 'S':
-          r.set(dimName, constrained(this.wStartDim + offset));
+          r.set(dimName, Math.max(minValue, this.wStartDim + offset));
           break;
       case 'W':
       case 'N':
         const posName = getWindowPositionName(this.side);
-        const dim = constrained(this.wStartDim - offset);
+        const dim = Math.max(minValue, this.wStartDim - offset);
         r.set(dimName, dim);
         r.set(posName, this.wStartPos + this.wStartDim - dim);
     }
@@ -82,6 +96,9 @@ export default class ResizeBehavior extends EmberObject {
   name = 'standard-resize-behavior';
   exclusionGroup = 'resize';
 
+  minWidth = 50;
+  minHeight = 50;
+
   events = null;
   dragInfos = null;
 
@@ -93,7 +110,7 @@ export default class ResizeBehavior extends EmberObject {
   }
 
   onSideDragStart(windowComponent, side, e) {
-    this.dragInfos = A([new DragInfo(windowComponent, side, e)]);
+    this.dragInfos = A([new DragInfo(windowComponent, side, this.minWidth, this.minHeight, e)]);
     const that = this;
     const thing = window;
     function onMove(e) {
@@ -116,8 +133,8 @@ export default class ResizeBehavior extends EmberObject {
   onCornerDragStart(windowComponent, corner, e) {
     this.dragInfos =
       A([
-        new DragInfo(windowComponent, corner[0], e),
-        new DragInfo(windowComponent, corner[1], e)
+        new DragInfo(windowComponent, corner[0], this.minWidth, this.minHeight, e),
+        new DragInfo(windowComponent, corner[1], this.minWidth, this.minHeight, e)
       ]);
     const that = this;
     const thing = window;

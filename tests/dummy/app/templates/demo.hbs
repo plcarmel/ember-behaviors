@@ -1,5 +1,19 @@
 <div class='demo-controls'>
 
+  <div class='demo-tabs'>
+
+    <h3>Usage</h3>
+
+    <input type='radio' checked={{eq tab 'static'}} onclick={{action 'goStatic'}} />Static
+    <input type='radio' checked={{eq tab 'dynamic'}} onclick={{action 'goDynamic'}}/>Dynamic
+    <input type='radio' checked={{eq tab 'flags'}} onclick={{action 'goFlags'}}/>Flags
+
+  </div>
+
+</div>
+
+{{#if (eq tab 'static')}}
+
   <h3>Included behaviors</h3>
 
   <Input
@@ -20,20 +34,21 @@
     <pre>{{code}}</pre>
   </p>
 
-</div>
+  {{#if (eq flags 0)}}
+    <RenderTemplate @boardView={{boardView}} @templateString={{code}}/>
+  {{/if}}
 
-{{#if (eq flags 0)}}
-  <RenderTemplate @boardView={{boardView}} @templateString={{code}}/>
+  {{#if (eq flags 1)}}
+    <RenderTemplate @boardView={{boardView}} @templateString={{code}}/>
+  {{/if}}
+
+  {{#if (eq flags 2)}}
+    <RenderTemplate @boardView={{boardView}} @templateString={{code}}/>
+  {{/if}}
+
+  {{#if (eq flags 3)}}
+    <RenderTemplate @boardView={{boardView}} @templateString={{code}}/>
+  {{/if}}
+
 {{/if}}
 
-{{#if (eq flags 1)}}
-  <RenderTemplate @boardView={{boardView}} @templateString={{code}}/>
-{{/if}}
-
-{{#if (eq flags 2)}}
-  <RenderTemplate @boardView={{boardView}} @templateString={{code}}/>
-{{/if}}
-
-{{#if (eq flags 3)}}
-  <RenderTemplate @boardView={{boardView}} @templateString={{code}}/>
-{{/if}}

@@ -16,6 +16,8 @@ export default Component.extend(InitPropertyMixin, {
 
   boardView: null,
 
+  tab: 'static',
+
   init() {
     this._super(...arguments);
     this.initProperty('boardView', BoardView.create({}));
@@ -31,12 +33,27 @@ export default Component.extend(InitPropertyMixin, {
     return '<Board'
       + '\n    @model = {{boardView}}'
       + (a || b ? '\n    @windowBehaviors = {{array' : '')
-      + (a ? '\n        (window-resize)' : '')
+      + (a ? '\n        (window-resize minWidth=200 minHeight=100)' : '')
       + (b ? '\n        (window-move)' : '')
       + (a || b ? '\n    }}' : '')
       + '\n/>';
-  })
+  }),
 
+  actions: {
+
+    goStatic() {
+      this.set('tab', 'static');
+    },
+
+    goDynamic() {
+      this.set('tab', 'dynamic');
+    },
+
+    goFlags() {
+      this.set('tab', 'flags');
+    }
+
+  }
 
 });
 
