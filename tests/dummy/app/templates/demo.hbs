@@ -12,43 +12,20 @@
 
 </div>
 
-{{#if (eq tab 'static')}}
-
-  <h3>Included behaviors</h3>
-
-  <Input
-    @type='checkbox'
-    @checked={{includeWindowResize}}
-    @onClick={{mut includeWindowResize (if includeWindowResize false true)}}
-  /> window-resize
-
-  <Input
-    @type='checkbox'
-    @checked={{includeWindowMove}}
-    @onClick={{mut includeWindowMove (if includeWindowMove false true)}}
-  /> window-move
+{{#component (concat tab '-demo-config') as |demoConfig|}}
 
   <h3>Resulting code</h3>
 
   <p class='snippet'>
-    <pre>{{code}}</pre>
+    <pre>{{demoConfig.code}}</pre>
   </p>
 
-  {{#if (eq flags 0)}}
-    <RenderTemplate @boardView={{boardView}} @templateString={{code}}/>
+  {{#if (eq demoConfig.mod2 0)}}
+    <RenderTemplate @boardView={{boardView}} @templateString={{demoConfig.code}}/>
   {{/if}}
 
-  {{#if (eq flags 1)}}
-    <RenderTemplate @boardView={{boardView}} @templateString={{code}}/>
+  {{#if (eq demoConfig.mod2 1)}}
+    <RenderTemplate @boardView={{boardView}} @templateString={{demoConfig.code}}/>
   {{/if}}
 
-  {{#if (eq flags 2)}}
-    <RenderTemplate @boardView={{boardView}} @templateString={{code}}/>
-  {{/if}}
-
-  {{#if (eq flags 3)}}
-    <RenderTemplate @boardView={{boardView}} @templateString={{code}}/>
-  {{/if}}
-
-{{/if}}
-
+{{/component}}

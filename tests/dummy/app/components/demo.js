@@ -1,6 +1,6 @@
 import { A } from '@ember/array';
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { computed, observer } from '@ember/object';
 import { htmlSafe } from '@ember/template';
 import InitPropertyMixin from '../mixins/init-property';
 import BoardView from '../models/board-view';
@@ -11,32 +11,38 @@ export default Component.extend(InitPropertyMixin, {
   layout,
   classNames: ['demo'],
 
-  includeWindowResize: true,
-  includeWindowMove: true,
-
   boardView: null,
 
   tab: 'static',
+  version: 0,
 
   init() {
     this._super(...arguments);
     this.initProperty('boardView', BoardView.create({}));
   },
 
-  flags: computed('includeWindowResize', 'includeWindowMove', function() {
-    return 2*(this.includeWindowResize?1:0) + 1*(this.includeWindowMove?1:0);
+  onChange: observer('includeWindowResize', 'includeWindowMove', 'tab', function() {
+    this.set('version', this.version + 1);
   }),
 
-  code: computed('includeWindowResize', 'includeWindowMove', function() {
-    const a = this.includeWindowResize;
-    const b = this.includeWindowMove;
-    return '<Board'
-      + '\n    @model = {{boardView}}'
-      + (a || b ? '\n    @windowBehaviors = {{array' : '')
-      + (a ? '\n        (window-resize minWidth=200 minHeight=100)' : '')
-      + (b ? '\n        (window-move)' : '')
-      + (a || b ? '\n    }}' : '')
-      + '\n/>';
+  dynamicCode: computed(function() {
+    return this.genCode('');
+  }),
+
+  flagsCode: computed(function() {
+    return this.genCode('');
+  }),
+
+  code: computed('tab', 'staticCode', 'dynamicCode', 'flagsCode', function() {
+    switch(this.tab) {
+      case 'static':
+        return this.staticCode;
+      case 'dynamic':
+        return this.dynamicCode;
+      case 'flags':
+        return this.flagsCode;
+    }
+    
   }),
 
   actions: {

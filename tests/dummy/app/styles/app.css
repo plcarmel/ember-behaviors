@@ -52,6 +52,8 @@ h2 {
   font-family: monospace;
   letter-spacing: 1px;
   line-height: 1.4;
+  background-color: white;
+  padding: 0.5ex 1em;
 }
 
 .board {
@@ -60,6 +62,10 @@ h2 {
   padding-: 30px;
   min-width: 100%;
   min-height: 100%;
+}
+
+.board-note-container {
+  position: relative;
 }
 
 .board-add-note {
@@ -165,5 +171,21 @@ h2 {
 
 .window-handle {
   position: absolute;
+}
+
+.behavior-report-title {
+  font-size: large;
+  font-weight: bold;
+}
+
+.behavior-list ul {
+  border: 1px dashed black;
+  padding: 1ex;
+}
+
+.behavior-list li {
+  display: inline-block;
+  padding: 1ex;
+  border: 1px solid black;
 }
 

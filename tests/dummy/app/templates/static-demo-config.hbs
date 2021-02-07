@@ -1,0 +1,15 @@
+<h3>Included behaviors</h3>
+
+<Input
+  @type='checkbox'
+  @checked={{includeWindowResize}}
+  @onClick={{mut includeWindowResize (if includeWindowResize false true)}}
+/> window-resize
+
+<Input
+  @type='checkbox'
+  @checked={{includeWindowMove}}
+  @onClick={{mut includeWindowMove (if includeWindowMove false true)}}
+/> window-move
+
+{{yield this}}

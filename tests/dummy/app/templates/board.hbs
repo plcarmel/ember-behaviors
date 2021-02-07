@@ -1,7 +1,20 @@
-<button class='board-add-note' onclick={{action 'addNote'}}>+</button>
+<BehaviorReport
+  @behaviors={{windowBehaviors}}
+  @behaviorsOff={{windowBehaviorsOff}}
+/>
 
-{{#each model.notes as |m|}}
+<div class='board-note-container'>
 
-  <Note @model={{m}} @windowBehaviors={{windowBehaviors}} />
+  <button class='board-add-note' onclick={{action 'addNote'}}>+</button>
 
-{{/each}}
+  {{#each model.notes as |m|}}
+
+    <Note
+      @model={{m}}
+      @windowBehaviors={{mut windowBehaviors}}
+      @windowBehaviorsOff={{mut windowBehaviorsOff}}
+    />
+
+  {{/each}}
+
+</div>
