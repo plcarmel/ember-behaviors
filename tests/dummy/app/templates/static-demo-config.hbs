@@ -1,15 +1,22 @@
-<h3>Included behaviors</h3>
+<div class='demo-config'>
 
-<Input
-  @type='checkbox'
-  @checked={{includeWindowResize}}
-  @onClick={{mut includeWindowResize (if includeWindowResize false true)}}
-/> window-resize
+  <h3 class='config-title'>Include behaviors</h3>
 
-<Input
-  @type='checkbox'
-  @checked={{includeWindowMove}}
-  @onClick={{mut includeWindowMove (if includeWindowMove false true)}}
-/> window-move
+  <Input
+    @type='checkbox'
+    @checked={{includeWindowResize}}
+    @onClick={{mut includeWindowResize (if includeWindowResize false true)}}
+  /> window-resize
 
-{{yield this}}
+  <Input
+    @type='checkbox'
+    @checked={{includeWindowMove}}
+    @onClick={{mut includeWindowMove (if includeWindowMove false true)}}
+  /> window-move
+
+  {{yield this 'resulting-code'}}
+
+</div>
+
+{{yield this 'board'}}
+

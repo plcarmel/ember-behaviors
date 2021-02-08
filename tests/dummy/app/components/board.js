@@ -10,8 +10,7 @@ import layout from '../templates/board';
 export default Component.extend(InitPropertyMixin, {
 
   layout,
-  classNames: ['board'],
-  attributeBindings: ['style'],
+  tagName: '',
   windowBehaviors: null,
 
   model: null,
@@ -23,7 +22,7 @@ export default Component.extend(InitPropertyMixin, {
   },
 
   @computed('model.requiredWidth', 'model.requiredHeight')
-  get style() {
+  get boardStyle() {
     return htmlSafe(
       `width: ${this.model.requiredWidth}px;` +
       ` height: ${this.model.requiredHeight}px;`

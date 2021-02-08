@@ -3,6 +3,8 @@ import { computed } from '@ember/object';
 
 export default Component.extend({
 
+  tagName: '',
+
   templateString: '',
 
   layout: computed('templateString', function() {

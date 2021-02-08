@@ -1,31 +1,31 @@
 <div class='demo-controls'>
-
   <div class='demo-tabs'>
-
-    <h3>Usage</h3>
-
+    <h3 class='config-title'>Usage type</h3>
     <input type='radio' checked={{eq tab 'static'}} onclick={{action 'goStatic'}} />Static
     <input type='radio' checked={{eq tab 'dynamic'}} onclick={{action 'goDynamic'}}/>Dynamic
     <input type='radio' checked={{eq tab 'flags'}} onclick={{action 'goFlags'}}/>Flags
-
   </div>
-
 </div>
 
-{{#component (concat tab '-demo-config') as |demoConfig|}}
+{{#component (concat tab '-demo-config') as |demoConfig part|}}
 
-  <h3>Resulting code</h3>
-
-  <p class='snippet'>
-    <pre>{{demoConfig.code}}</pre>
-  </p>
-
-  {{#if (eq demoConfig.mod2 0)}}
-    <RenderTemplate @boardView={{boardView}} @templateString={{demoConfig.code}}/>
+  {{#if (eq part 'resulting-code')}}
+    <div class='resulting-code'>
+      <h3>Resulting code</h3>
+      <p class='snippet'>
+        <pre>{{demoConfig.code}}</pre>
+      </p>
+    </div>
   {{/if}}
 
-  {{#if (eq demoConfig.mod2 1)}}
-    <RenderTemplate @boardView={{boardView}} @templateString={{demoConfig.code}}/>
+  {{#if (eq part 'board')}}
+    {{#if (eq demoConfig.mod2 0)}}
+      <RenderTemplate @boardView={{boardView}} @templateString={{demoConfig.code}}/>
+    {{/if}}
+
+    {{#if (eq demoConfig.mod2 1)}}
+      <RenderTemplate @boardView={{boardView}} @templateString={{demoConfig.code}}/>
+    {{/if}}
   {{/if}}
 
 {{/component}}

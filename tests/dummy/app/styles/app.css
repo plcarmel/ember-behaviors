@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: Arial, Sans-serif;
-  background: beige;
+  /*background: beige;*/
 }
 
 h1, h2 {
@@ -34,17 +34,40 @@ h1 span:before {
 
 h2 {
   padding-bottom: 30px;
-  padding-left: 60px;
+  padding-left: 30px;
 }
 
 .demo {
   margin: 20px;
 }
 
+.demo > div, .demo-config > div {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
 .demo-controls {
   background-color: white;
-  margin: -20px -20px 0 -20px;
-  padding: 20px;
+  padding: 15px;
+  padding-top: 30px;
+}
+
+.config-title {
+  display: inline;
+  margin-right: 1em;
+}
+
+.demo-config, .behavior-report, .board {
+  border: 1px solid black;
+  display: inline-block;
+  padding: 15px;
+  margin: 15px;
+  float: left;
+  vertical-align: top;
+}
+
+.demo-config > h3, .behavior-report > h3 {
+  margin-top: 0;
 }
 
 .snippet {
@@ -56,12 +79,17 @@ h2 {
   padding: 0.5ex 1em;
 }
 
+.snippet, .snippet pre {
+  margin: 0;
+  padding: 0 auto;
+}
+
 .board {
   position: relative;
   user-select: none;
-  padding-: 30px;
-  min-width: 100%;
+  padding: 30px;
   min-height: 100%;
+  clear: both;
 }
 
 .board-note-container {
@@ -76,9 +104,6 @@ h2 {
   font-size: 30px;
   background-color: #e34c32;
   color: white;
-  position: relative;
-  left: 0;
-  top: 15px;
 }
 
 .window {
@@ -115,7 +140,6 @@ h2 {
   overflow: hidden;
   margin-right: 30px;
 }
-
 
 .note-title input, .note-content textarea {
   background-color: #80808020;
@@ -171,11 +195,6 @@ h2 {
 
 .window-handle {
   position: absolute;
-}
-
-.behavior-report-title {
-  font-size: large;
-  font-weight: bold;
 }
 
 .behavior-list ul {

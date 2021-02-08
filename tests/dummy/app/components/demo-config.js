@@ -3,6 +3,8 @@ import { computed } from '@ember/object';
 
 export default Component.extend({
 
+  tag: null,
+
   version: 0,
 
   mod2: computed('version', function() {
