@@ -1,6 +1,6 @@
 import { A } from '@ember/array';
 import Component from '@ember/component';
-import { computed, observer } from '@ember/object';
+import { computed } from '@ember/object';
 import { htmlSafe } from '@ember/template';
 import InitPropertyMixin from '../mixins/init-property';
 import BoardView from '../models/board-view';
@@ -20,10 +20,6 @@ export default Component.extend(InitPropertyMixin, {
     this._super(...arguments);
     this.initProperty('boardView', BoardView.create({}));
   },
-
-  onChange: observer('includeWindowResize', 'includeWindowMove', 'tab', function() {
-    this.set('version', this.version + 1);
-  }),
 
   dynamicCode: computed(function() {
     return this.genCode('');

@@ -1,0 +1,12 @@
+<div class='demo-config'>
+
+  <h3>Add / remove from behavior list </h3>
+
+  <AddRemoveBehavior @list={{windowBehaviors}} @behavior={{window-resize}} />
+  <AddRemoveBehavior @list={{windowBehaviors}} @behavior={{window-move}} />
+
+  {{yield this 'resulting-code'}}
+
+</div>
+
+{{yield this 'board'}}

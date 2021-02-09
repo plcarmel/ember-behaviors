@@ -52,11 +52,6 @@ h2 {
   padding-top: 30px;
 }
 
-.config-title {
-  display: inline;
-  margin-right: 1em;
-}
-
 .demo-config, .behavior-report, .board {
   border: 1px solid black;
   display: inline-block;

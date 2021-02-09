@@ -11,7 +11,7 @@
 
   {{#if (eq part 'resulting-code')}}
     <div class='resulting-code'>
-      <h3>Resulting code</h3>
+      <h3>Code</h3>
       <p class='snippet'>
         <pre>{{demoConfig.code}}</pre>
       </p>
@@ -20,11 +20,19 @@
 
   {{#if (eq part 'board')}}
     {{#if (eq demoConfig.mod2 0)}}
-      <RenderTemplate @boardView={{boardView}} @templateString={{demoConfig.code}}/>
+      <RenderTemplate
+        @demoConfig={{demoConfig}}
+        @boardView={{boardView}}
+        @templateString={{demoConfig.code}}
+      />
     {{/if}}
 
     {{#if (eq demoConfig.mod2 1)}}
-      <RenderTemplate @boardView={{boardView}} @templateString={{demoConfig.code}}/>
+      <RenderTemplate
+        @demoConfig={{demoConfig}}
+        @boardView={{boardView}}
+        @templateString={{demoConfig.code}}
+      />
     {{/if}}
   {{/if}}
 
