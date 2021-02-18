@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { computed, observer } from '@ember/object';
+import { computed } from '@ember/object';
 
 export default Component.extend({
 
@@ -9,10 +9,6 @@ export default Component.extend({
 
   mod2: computed('version', function() {
     return this.version % 2;
-  }),
-
-  onChange: observer('includeWindowResize', 'includeWindowMove', function() {
-    this.set('version', this.version + 1);
   }),
 
   genCode(innerCode) {

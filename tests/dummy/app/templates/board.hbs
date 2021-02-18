@@ -1,20 +1,29 @@
-<BehaviorReport
-  @subject='windowBehaviors'
-  @behaviors={{windowBehaviors}}
-  @behaviorsOff={{windowBehaviorsOff}}
-/>
+{{#with model.anyNote as |note|}}
+  <BehaviorReport
+    @subject='windowBehaviors'
+    @behaviorsOn={{report.windowBehaviorsOn}}
+    @behaviorsOff={{report.windowBehaviorsOff}}
+  />
+{{/with}}
 
 <div class='board' style={{boardStyle}}>
 
   <button class='board-add-note' onclick={{action 'addNote'}}>+</button>
 
-  {{#each model.notes as |m|}}
+  {{#each model.notes as |m i|}}
 
-    <Note
-      @model={{m}}
-      @windowBehaviors={{mut windowBehaviors}}
-      @windowBehaviorsOff={{mut windowBehaviorsOff}}
-    />
+    {{#if (eq i 0)}}
+      <Note
+        @model={{m}}
+        @windowBehaviors={{windowBehaviors}}
+        @windowBehaviorsChanged={{action 'windowBehaviorsChanged'}}
+      />
+    {{else}}
+      <Note
+        @model={{m}}
+        @windowBehaviors={{windowBehaviors}}
+      />
+    {{/if}}
 
   {{/each}}
 

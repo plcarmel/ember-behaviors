@@ -5,12 +5,15 @@ import layout from '../templates/window';
 import InitPropertyMixin from '../mixins/init-property';
 import { HasBehaviorsMixin } from 'ember-behaviors'
 import { htmlSafe } from '@ember/template';
+import { EKMixin } from 'ember-keyboard';
+import ActivateKeyboardOnFocusMixin from 'ember-keyboard/mixins/activate-keyboard-on-focus';
 
-export default Component.extend(InitPropertyMixin, HasBehaviorsMixin, {
+export default Component.extend(InitPropertyMixin, EKMixin, ActivateKeyboardOnFocusMixin, HasBehaviorsMixin, {
 
   layout,
   classNames: ['window'],
-  attributeBindings: ['style'],
+  attributeBindings: ['style', 'tabindex'],
+  tabindex: 0,
 
   rectangle: null,
 

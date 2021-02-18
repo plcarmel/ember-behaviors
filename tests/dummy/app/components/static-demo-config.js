@@ -1,4 +1,4 @@
-import { computed } from '@ember/object';
+import { computed, observer } from '@ember/object';
 
 import DemoConfig from '../components/demo-config';
 import layout from '../templates/static-demo-config';
@@ -9,6 +9,10 @@ export default DemoConfig.extend({
 
   includeWindowResize: true,
   includeWindowMove: true,
+
+  onChange: observer('includeWindowResize', 'includeWindowMove', function() {
+    this.set('version', this.version + 1);
+  }),
 
   code: computed('includeWindowResize', 'includeWindowMove', function() {
     const a = this.includeWindowResize;

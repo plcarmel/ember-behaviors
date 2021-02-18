@@ -1,7 +1,7 @@
 import EmberObject from '@ember/object';
 import { extractPosInfo } from '../../utils/touch';
 
-class DragInfo {
+export class DragInfo {
 
   mStartPosX = null;
   mStartPosY = null;

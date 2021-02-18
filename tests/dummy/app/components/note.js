@@ -12,6 +12,7 @@ export default Component.extend(InitPropertyMixin, {
 
   model: null,
   windowBehaviors: null,
+  windowBehaviorsChanged: null,
 
   edit: false,
   newTitle: null,
@@ -21,6 +22,7 @@ export default Component.extend(InitPropertyMixin, {
     this._super(...arguments);
     this.initProperty('model', NoteView.create({}));
     this.initProperty('windowBehaviors', A([]));
+    this.initProperty('windowBehaviorsChanged', function() {});
   },
 
   actions: {

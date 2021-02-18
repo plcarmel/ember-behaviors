@@ -11,6 +11,11 @@ export default EmberObject.extend(InitPropertyMixin, {
     this.initProperty('notes', A([NoteView.create({})]));
   },
 
+  @computed('notes.[]')
+  get anyNote() {
+    return this.notes.length == 0 ? null : this.notes.objectAt(0);
+  },
+
   @computed('notes.length', 'notes.@each.right')
   get requiredWidth() {
     return this.notes.length == 0 ?

@@ -15,6 +15,8 @@ export default Component.extend(InitPropertyMixin, {
 
   model: null,
 
+  report: null,
+
   init() {
     this._super(...arguments);
     this.initProperty('model', BoardView.create({}));
@@ -32,6 +34,9 @@ export default Component.extend(InitPropertyMixin, {
   actions: {
     addNote() {
       this.model.addNote();
+    },
+    windowBehaviorsChanged(windowBehaviorsOn, windowBehaviorsOff) {
+      this.set('report', { windowBehaviorsOn, windowBehaviorsOff });
     }
   }
 

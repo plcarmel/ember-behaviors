@@ -36,7 +36,7 @@ function gatherKeys(event) {
  *   based on the value of the property.
  */
 export function behaviorGroupFlag(exclusionGroup) {
-  return computed('behaviors.[]', {
+  return computed('behaviorsOn.[]', {
     get() {
       this._initDefaultBehaviorsIfNeeded();
       return !!this.getActiveBehaviorOf(exclusionGroup);
@@ -64,7 +64,7 @@ export function behaviorGroupFlag(exclusionGroup) {
  *   contains the instance of the behavior to prioritize or not.
  */
 export function behaviorFlag(exclusionGroup, behaviorPropertyName) {
-  return computed('behaviors.[]', 'behaviorsOff.[]', {
+  return computed('behaviorsOn.[]', 'behaviorsOff.[]', {
     get() {
       this._initDefaultBehaviorsIfNeeded();
       return this.getFirstBehaviorOf(exclusionGroup) === this.get(behaviorPropertyName);
@@ -91,7 +91,7 @@ export function behaviorFlag(exclusionGroup, behaviorPropertyName) {
  * @param {string} behaviorClass - The class of the behavior to be returned.
  */
 export function behaviorInstanceOf(behaviorClass) {
-  return computed('behaviors.[]', 'behaviorsOff.[]', {
+  return computed('behaviorsOn.[]', 'behaviorsOff.[]', {
     get() {
       this._initDefaultBehaviorsIfNeeded();
       return this.allBehaviors.find((b) => b instanceof behaviorClass);
@@ -109,9 +109,15 @@ export function behaviorInstanceOf(behaviorClass) {
 export default Mixin.create({
 
   /**
-   * Behaviors that are turned on, in descending order of priority.
+   * Property to set / change behaviors
+   * Behaviors are in descending order of priority
    */
   behaviors: withBackingField('_behaviors', () => A()),
+
+  /**
+   * Behaviors that are turned on, in descending order of priority.
+   */
+  behaviorsOn: withBackingField('_behaviorsOn', () => A()),
 
   /**
    * Behaviors that are turned off, in descending order of priority. They are
@@ -120,12 +126,20 @@ export default Mixin.create({
    */
   behaviorsOff: withBackingField('_behaviorsOff', () => A()),
 
-  allBehaviors: computed('behaviors.[]', 'behaviorsOff.[]', function() {
+  activeBehaviorChanged: withBackingField('_onBehaviorChanged', () => function() {}),
+
+  allBehaviors: computed('behaviorsOn.[]', 'behaviorsOff.[]', function() {
     let result = A();
-    result.pushObjects(this.behaviors);
+    result.pushObjects(this.behaviorsOn);
     result.pushObjects(this.behaviorsOff);
     return result;
   }),
+
+  onBehaviorChange: on('init', observer('behaviors.{[],exclusionGroup}', function() {
+    this.behaviorsOff.clear();
+    this.behaviorsOn.clear();
+    this.behaviors.forEach(b => this.activateBehavior(b));
+  })),
 
   /**
    * Moves a behavior in front of other behaviors.
@@ -135,11 +149,10 @@ export default Mixin.create({
    */
   prioritizeBehavior(behavior) {
     if (behavior) {
-      let { behaviors } = this;
-      let { behaviorsOff } = this;
-      if (behaviors.includes(behavior)) {
-        behaviors.removeObject(behavior);
-        behaviors.insertAt(0, behavior);
+      let { behaviorsOn, behaviorsOff } = this;
+      if (behaviorsOn.includes(behavior)) {
+        behaviorsOn.removeObject(behavior);
+        behaviorsOn.insertAt(0, behavior);
       } else if (behaviorsOff.includes(behavior)) {
         behaviorsOff.removeObject(behavior);
         behaviorsOff.insertAt(0, behavior);
@@ -155,9 +168,8 @@ export default Mixin.create({
    */
   inactivateBehavior(behavior) {
     if (behavior) {
-      let { behaviors } = this;
-      let { behaviorsOff } = this;
-      behaviors.removeObject(behavior);
+      let { behaviorsOn, behaviorsOff } = this;
+      behaviorsOn.removeObject(behavior);
       behaviorsOff.removeObject(behavior);
       behaviorsOff.insertAt(0, behavior);
     }
@@ -173,10 +185,9 @@ export default Mixin.create({
   activateBehavior(behavior, value) {
     if (value === undefined || value)  {
       this.inactivateAllBehaviorsOf(behavior.get('exclusionGroup'));
-      let { behaviors } = this;
-      let { behaviorsOff } = this;
+      let { behaviorsOn, behaviorsOff } = this;
       behaviorsOff.removeObject(behavior);
-      behaviors.insertAt(0, behavior);
+      behaviorsOn.insertAt(0, behavior);
     } else {
       this.inactivateBehavior(behavior);
     }
@@ -190,7 +201,7 @@ export default Mixin.create({
    * @returns {Behavior} - The active behavior's instance or `undefined` otherwise.
    */
   getActiveBehaviorOf(exclusionGroup) {
-    return A(this.behaviors).findBy('exclusionGroup', exclusionGroup);
+    return A(this.behaviorsOn).findBy('exclusionGroup', exclusionGroup);
   },
 
   /**
@@ -243,17 +254,17 @@ export default Mixin.create({
   /**
    * An array containing the set of exclusion groups shared by the behaviors that are on
    */
-  exclusionGroups: computed('behaviors.{[],exclusionGroup}', function() {
-    return A(this.behaviors.mapBy('exclusionGroup').filter((g) => g)).uniq();
+  exclusionGroups: computed('behaviorsOn.{[],exclusionGroup}', function() {
+    return A(this.behaviorsOn.mapBy('exclusionGroup').filter((g) => g)).uniq();
   }),
 
   /**
    * Behaviors that are active. A behavior is active if it's on and if it has the greatest
    * priority among the behaviors of its exclusion group.
    */
-  activeBehaviors: computed('behaviors', 'exclusionGroups', function() {
+  activeBehaviors: computed('behaviorsOn', 'exclusionGroups', function() {
     let groups = this.exclusionGroups;
-    return this.behaviors
+    return this.behaviorsOn
       .filter((b) => {
         let group = b.get('exclusionGroup');
         if (group) {
@@ -301,13 +312,14 @@ export default Mixin.create({
       });
   },
 
-  _onBehaviorsChanged: on('init', observer(
-    'behaviors.[]',
-    'behaviors.@each.events',
+  _onActiveBehaviorsChanged: observer(
+    'behaviorsOn.[]',
+    'behaviorsOn.@each.events',
     function() {
       run.once(this, '_updateEvents');
+      this.activeBehaviorsChanged(this.behaviorsOn, this.behaviorsOff);
     }
-  )),
+  ),
 
   _setClasses: on('didRender', observer(
     'activeBehaviors.[]',
@@ -318,7 +330,7 @@ export default Mixin.create({
         let classesOn = A([]);
         let classesOff = A([]);
         let bOff = A(this.behaviorsOff);
-        let bOn = A(this.behaviors);
+        let bOn = A(this.behaviorsOn);
         bOff.map((b) => b.get('classNames')).filter((l) => l).forEach((l) => classesOff.addObjects(l));
         bOn.map((b) => b.get('classNames')).filter((l) => l).forEach((l) => classesOn.addObjects(l));
         classesOff.addObjects(bOff.mapBy('exclusionGroup').filter((g) => g));
