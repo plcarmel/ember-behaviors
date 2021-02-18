@@ -15,7 +15,8 @@ export default Component.extend({
 
   actions: {
     add() {
-      this.list.addObject(this.behavior);
+      this.list.removeObject(this.behavior);
+      this.list.insertAt(0, this.behavior);
     },
     remove() {
       this.list.removeObject(this.behavior);

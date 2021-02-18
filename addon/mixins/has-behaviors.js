@@ -138,7 +138,7 @@ export default Mixin.create({
   onBehaviorChange: on('init', observer('behaviors.{[],exclusionGroup}', function() {
     this.behaviorsOff.clear();
     this.behaviorsOn.clear();
-    this.behaviors.forEach(b => this.activateBehavior(b));
+    A(this.behaviors).toArray().reverse().forEach(b => this.activateBehavior(b));
   })),
 
   /**
