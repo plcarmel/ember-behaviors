@@ -2,8 +2,8 @@
 
   <h3>Add / remove from behavior list </h3>
 
-  <AddRemoveBehavior @list={{windowBehaviors}} @behavior={{window-resize}} />
-  <AddRemoveBehavior @list={{windowBehaviors}} @behavior={{window-move}} />
+  <AddRemoveBehavior @list={{windowBehaviors}} @behavior={{localWindowResize}} />
+  <AddRemoveBehavior @list={{windowBehaviors}} @behavior={{localWindowMove}} />
   <AddRemoveBehavior @list={{windowBehaviors}} @behavior={{window-move-kb-ext}} />
 
   {{yield this 'resulting-code'}}

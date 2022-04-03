@@ -25,66 +25,6 @@ function gatherKeys(event) {
 }
 
 /**
- * Returns a computed property flag that turns on or off a group of
- * mutually exclusive behaviors.
- *
- * @function
- * @param {string} exclusionGroup - If present, it is
- *   the name of the mutually exclusive group of behaviors for
- *   which all behaviors should be turned off or for which the
- *   behavior having the higher priority should be turned on,
- *   based on the value of the property.
- */
-export function behaviorGroupFlag(exclusionGroup) {
-  return computed('behaviorsOn.[]', {
-    get() {
-      this._initDefaultBehaviorsIfNeeded();
-      return !!this.getActiveBehaviorOf(exclusionGroup);
-    },
-    set(key, value) {
-      this._initDefaultBehaviorsIfNeeded();
-      if (value) {
-        this.activateBehavior(this.getFirstBehaviorOf(exclusionGroup));
-      } else {
-        this.inactivateAllBehaviorsOf(exclusionGroup);
-      }
-      return value;
-    }
-  });
-}
-
-/**
- * Returns a computed property flag that prioritize or not a specific
- * behavior in a group of mutually exclusive behaviors.
- *
- * @function
- * @param {string} exclusionGroup - The name of the mutually exclusive
- *   group of behaviors.
- * @param {string} behaviorPropertyName - The name of the property that
- *   contains the instance of the behavior to prioritize or not.
- */
-export function behaviorFlag(exclusionGroup, behaviorPropertyName) {
-  return computed('behaviorsOn.[]', 'behaviorsOff.[]', {
-    get() {
-      this._initDefaultBehaviorsIfNeeded();
-      return this.getFirstBehaviorOf(exclusionGroup) === this.get(behaviorPropertyName);
-    },
-    set(key, value) {
-      this._initDefaultBehaviorsIfNeeded();
-      let l = A(this.allBehaviors.filterBy('exclusionGroup', exclusionGroup));
-      let b = this.get(behaviorPropertyName);
-      let b0 = l.objectAt(0);
-      if (b0 !== b && value) {
-        this.activateBehavior(b);
-      } else if (b0 === b && !value) {
-        this.prioritizeBehavior(l.objectAt(1));
-      }
-      return value;
-    }
-  });
-}
-
-/**
  * Returns a computed property that is the first behavior of a given type if one is present.
  *
  * @function
@@ -93,7 +33,6 @@ export function behaviorFlag(exclusionGroup, behaviorPropertyName) {
 export function behaviorInstanceOf(behaviorClass) {
   return computed('behaviorsOn.[]', 'behaviorsOff.[]', {
     get() {
-      this._initDefaultBehaviorsIfNeeded();
       return this.allBehaviors.find((b) => b instanceof behaviorClass);
     }
   });
@@ -224,7 +163,8 @@ export default Mixin.create({
    * @returns {Behavior} - The behavior's instance or `undefined` otherwise.
    */
   getFirstBehaviorOf(exclusionGroup) {
-    return A(this.allBehaviors.filterBy('exclusionGroup', exclusionGroup)).objectAt(0);
+    const a = A(this.allBehaviors.filterBy('exclusionGroup', exclusionGroup));
+    return a.length === 0 ? null : a.objectAt(0);
   },
 
   /**

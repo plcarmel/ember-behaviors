@@ -18,9 +18,9 @@ export default DemoConfig.extend({
     const a = this.includeWindowResize;
     const b = this.includeWindowMove;
     return this.genCode(
-      (a || b ? '\n    @windowBehaviors = {{array' : '')
-      + (a ? '\n        (window-resize minWidth=200 minHeight=100)' : '')
-      + (b ? '\n        (window-move)' : '')
+      (a || b ?   '\n    @windowBehaviors = {{array' : '')
+      + (a ?      '\n        (window-resize minWidth=200 minHeight=100)' : '')
+      + (b ?      '\n        (window-move)' : '')
       + (a || b ? '\n    }}' : '')
     );
   })

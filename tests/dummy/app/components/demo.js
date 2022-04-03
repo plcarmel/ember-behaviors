@@ -25,18 +25,12 @@ export default Component.extend(InitPropertyMixin, {
     return this.genCode('');
   }),
 
-  flagsCode: computed(function() {
-    return this.genCode('');
-  }),
-
-  code: computed('tab', 'staticCode', 'dynamicCode', 'flagsCode', function() {
+  code: computed('tab', 'staticCode', 'dynamicCode', function() {
     switch(this.tab) {
       case 'static':
         return this.staticCode;
       case 'dynamic':
         return this.dynamicCode;
-      case 'flags':
-        return this.flagsCode;
     }
     
   }),
@@ -49,10 +43,6 @@ export default Component.extend(InitPropertyMixin, {
 
     goDynamic() {
       this.set('tab', 'dynamic');
-    },
-
-    goFlags() {
-      this.set('tab', 'flags');
     }
 
   }

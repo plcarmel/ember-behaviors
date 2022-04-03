@@ -17,9 +17,6 @@ export default Component.extend(InitPropertyMixin, EKMixin, ActivateKeyboardOnFo
 
   rectangle: null,
 
-  init() {
-    this._super(...arguments);
-  },
 
   @computed('rectangle.style')
   get style() {
